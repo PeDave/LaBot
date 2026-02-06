@@ -7,7 +7,7 @@ public class BotState
     public string StateJson { get; set; } = "{}"; // Current bot state
     public DateTime Timestamp { get; set; }
     public DateTime CreatedAt { get; set; }
-    
+
     // Navigation properties
     public virtual BotInstance BotInstance { get; set; } = null!;
 }

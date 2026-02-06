@@ -11,7 +11,7 @@ public class WalletSnapshot
     public decimal LockedBalance { get; set; }
     public DateTime SnapshotTime { get; set; }
     public DateTime CreatedAt { get; set; }
-    
+
     // Navigation properties
     public virtual Tenant Tenant { get; set; } = null!;
 }

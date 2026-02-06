@@ -24,22 +24,31 @@ Use this checklist when:
 ## 🔨 Phase 1: CI/Build Gates
 
 ### GitHub Actions Workflows
-- [ ] Create `.github/workflows/build.yml` - Build all projects on push/PR
-- [ ] Create `.github/workflows/test.yml` - Run all tests on push/PR
-- [ ] Create `.github/workflows/dotnet-format.yml` - Check code formatting
+- [x] Create `.github/workflows/ci.yml` - Build, test, and format check on push/PR ✅
+- [x] NuGet package caching configured for fast builds ✅
+- [x] Code formatting verification with `dotnet format` ✅
 - [ ] Add workflow status badges to root README.md
 - [ ] Configure branch protection rules requiring checks to pass
 
+**CI Workflow includes:**
+- ✅ Runs on pull requests (all branches) and pushes to main
+- ✅ .NET 8 SDK setup
+- ✅ NuGet package caching
+- ✅ `dotnet restore` for entire solution
+- ✅ `dotnet build` in Release configuration with warnings as errors
+- ✅ `dotnet test` with detailed output
+- ✅ `dotnet format --verify-no-changes` for code formatting
+
 ### Build Verification
-- [ ] `dotnet restore` succeeds for entire solution
-- [ ] `dotnet build` succeeds with zero warnings (or document exceptions)
-- [ ] `dotnet build -c Release` succeeds
-- [ ] All test projects compile successfully
-- [ ] No package restore errors or version conflicts
+- [x] `dotnet restore` succeeds for entire solution ✅
+- [x] `dotnet build` succeeds with zero warnings ✅
+- [x] `dotnet build -c Release` succeeds ✅
+- [x] All test projects compile successfully ✅
+- [x] No package restore errors or version conflicts ✅
 
 ### Test Gate
-- [ ] `dotnet test` runs successfully
-- [ ] All existing tests pass (document any known failures)
+- [x] `dotnet test` runs successfully ✅
+- [x] All existing tests pass ✅
 - [ ] Test coverage report generated (if using coverlet or similar)
 - [ ] Critical paths have unit tests (authentication, tenancy, trading logic)
 - [ ] Integration tests run against test database
@@ -55,14 +64,13 @@ Use this checklist when:
 - [ ] Verify project references are correct (no circular dependencies)
 
 ### Code Standards
-- [ ] Create `Directory.Build.props` for shared build settings (if not exists)
-  - Nullable reference types enabled
-  - TreatWarningsAsErrors (or selective warnings)
-  - LangVersion set to latest
-- [ ] Create `.editorconfig` for consistent code style (if not exists)
+- [x] Nullable reference types enabled (in all .csproj files) ✅
+- [x] TreatWarningsAsErrors enforced via CI workflow ✅
+- [x] Code formatting enforced via CI (`dotnet format --verify-no-changes`) ✅
+- [ ] Create `Directory.Build.props` for shared build settings (optional - using project-level settings)
+- [ ] Create `.editorconfig` for consistent code style (optional - using .NET defaults)
 - [ ] Configure analyzers (StyleCop, Roslynator, or similar)
 - [ ] Document code style guidelines in CONTRIBUTING.md (if not exists)
-- [ ] Run `dotnet format` and ensure code is formatted consistently
 
 ### Git Practices
 - [ ] `.gitignore` properly excludes bin/, obj/, .vs/, user-specific files

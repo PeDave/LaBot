@@ -17,10 +17,10 @@ public class N8nWebhookController : ControllerBase
     public async Task<IActionResult> ReceiveSignal([FromBody] SignalWebhookDto signal)
     {
         _logger.LogInformation("Received signal from n8n: {@Signal}", signal);
-        
+
         // TODO: Process signal and create bot action
         // This would integrate with the bot engine to execute trades
-        
+
         return Ok(new { status = "received", signalId = signal.SignalId });
     }
 
@@ -28,10 +28,10 @@ public class N8nWebhookController : ControllerBase
     public IActionResult ExportData([FromQuery] string tenantId, [FromQuery] string dataType)
     {
         _logger.LogInformation("Export request for tenant {TenantId}, type {DataType}", tenantId, dataType);
-        
+
         // TODO: Export data for n8n integration
         // This could export wallet snapshots, bot states, signals, etc.
-        
+
         return Ok(new { data = new[] { new { sample = "data" } } });
     }
 }

@@ -1,5 +1,7 @@
 # LaBot
 
+[![CI](https://github.com/PeDave/LaBot/actions/workflows/ci.yml/badge.svg)](https://github.com/PeDave/LaBot/actions/workflows/ci.yml)
+
 A multi-tenant cryptocurrency trading bot platform built with .NET 8, Blazor Server, and PostgreSQL.
 
 ## 📖 Documentation
@@ -150,17 +152,38 @@ Symbol format: `BTC/USDT`, `ETH/USDT` (adapters convert to exchange-specific for
 
 ## Development
 
-```bash
-# Run tests
-dotnet test
+### Local Development Commands
 
-# Build release
-dotnet build -c Release
+```bash
+# Restore dependencies
+dotnet restore LaBot.slnx
+
+# Build in Release mode (same as CI)
+dotnet build LaBot.slnx --configuration Release --no-restore /p:TreatWarningsAsErrors=true
+
+# Run all tests (same as CI)
+dotnet test LaBot.slnx --configuration Release --no-build --verbosity normal
+
+# Verify code formatting (same as CI)
+dotnet format LaBot.slnx --verify-no-changes
+
+# Auto-fix code formatting
+dotnet format LaBot.slnx
 
 # Create migration
 cd src/LaBot.Infrastructure
 dotnet ef migrations add MigrationName --startup-project ../LaBot.Web/LaBot.Web.csproj
 ```
+
+### Continuous Integration
+
+The repository uses GitHub Actions for CI/CD. The workflow runs on every pull request and push to main:
+
+- ✅ **Build**: Compiles all projects in Release mode with warnings as errors
+- ✅ **Test**: Runs all unit and integration tests
+- ✅ **Format Check**: Ensures code follows consistent formatting standards
+
+To ensure your changes pass CI before pushing, run the commands above locally.
 
 ## Deployment
 

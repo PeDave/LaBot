@@ -9,9 +9,9 @@ public record SymbolInfo(string BaseAsset, string QuoteAsset)
         {
             throw new ArgumentException($"Invalid symbol format: {symbol}. Expected format: BTC/USDT");
         }
-        
+
         return new SymbolInfo(parts[0], parts[1]);
     }
-    
+
     public override string ToString() => $"{BaseAsset}/{QuoteAsset}";
 }

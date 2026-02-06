@@ -26,14 +26,14 @@ public class BotEngine : BackgroundService
         // For now, create stub adapters
         _exchanges["Bitget"] = new BitgetAdapter("api_key", "api_secret", "passphrase");
         _exchanges["BingX"] = new BingXAdapter("api_key", "api_secret");
-        
+
         _logger.LogInformation("Initialized {Count} exchanges", _exchanges.Count);
     }
 
     private void InitializeStrategies()
     {
         _strategies["Martingale"] = new MartingaleStrategy();
-        
+
         _logger.LogInformation("Initialized {Count} strategies", _strategies.Count);
     }
 
@@ -52,9 +52,9 @@ public class BotEngine : BackgroundService
                 //   3. Generate signal using strategy
                 //   4. If signal generated, execute order
                 //   5. Update bot state and save to database
-                
+
                 _logger.LogDebug("Bot engine tick at: {time}", DateTimeOffset.Now);
-                
+
                 await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
             }
             catch (Exception ex)
@@ -63,7 +63,7 @@ public class BotEngine : BackgroundService
                 await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken);
             }
         }
-        
+
         _logger.LogInformation("Bot Engine stopping at: {time}", DateTimeOffset.Now);
     }
 }

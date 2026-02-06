@@ -10,7 +10,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 // Add DbContext
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? "Host=localhost;Database=labot;Username=labot;Password=labot";
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));

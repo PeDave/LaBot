@@ -14,7 +14,7 @@ public class Signal
     public bool IsExecuted { get; set; } = false;
     public DateTime? ExecutedAt { get; set; }
     public DateTime CreatedAt { get; set; }
-    
+
     // Navigation properties
     public virtual BotInstance BotInstance { get; set; } = null!;
 }
