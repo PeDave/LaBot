@@ -1,7 +1,7 @@
-using LaBot.Worker.Strategies;
-using LaBot.Exchanges.Core.Interfaces;
-using LaBot.Exchanges.Bitget.Adapters;
 using LaBot.Exchanges.BingX.Adapters;
+using LaBot.Exchanges.Bitget.Adapters;
+using LaBot.Exchanges.Core.Interfaces;
+using LaBot.Worker.Strategies;
 
 namespace LaBot.Worker;
 

@@ -14,7 +14,7 @@ public class N8nWebhookController : ControllerBase
     }
 
     [HttpPost("signal")]
-    public async Task<IActionResult> ReceiveSignal([FromBody] SignalWebhookDto signal)
+    public IActionResult ReceiveSignal([FromBody] SignalWebhookDto signal)
     {
         _logger.LogInformation("Received signal from n8n: {@Signal}", signal);
 
