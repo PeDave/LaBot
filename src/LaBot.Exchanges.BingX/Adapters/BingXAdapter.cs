@@ -8,6 +8,11 @@ namespace LaBot.Exchanges.BingX.Adapters;
 
 public class BingXAdapter : IExchangeAdapter
 {
+    private const decimal DefaultQuantityStep = 0.00000001m;
+    private const decimal DefaultMinPrice = 0m;
+    private const decimal DefaultMaxPrice = 0m;
+    private const decimal DefaultPriceStep = 0.01m;
+
     private readonly BingXRestClient _restClient;
     private readonly ILogger<BingXAdapter> _logger;
 
@@ -150,10 +155,10 @@ public class BingXAdapter : IExchangeAdapter
                         QuoteAsset: s.Currency,
                         MinQuantity: minQty,
                         MaxQuantity: maxQty,
-                        QuantityStep: 0.00000001m, // Default, would need more API details
-                        MinPrice: 0, // Would need more API details
-                        MaxPrice: 0, // Would need more API details
-                        PriceStep: 0.01m, // Default, would need more API details
+                        QuantityStep: DefaultQuantityStep,
+                        MinPrice: DefaultMinPrice,
+                        MaxPrice: DefaultMaxPrice,
+                        PriceStep: DefaultPriceStep,
                         IsActive: s.Status == 1
                     );
                 })

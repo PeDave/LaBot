@@ -20,7 +20,7 @@ public class BingXBalancePoller : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("BingX Balance Poller starting. Poll interval: {Seconds} seconds", _pollIntervalSeconds);
+        _logger.LogInformation("BingX Balance Poller starting. Poll interval: {IntervalSeconds}s", _pollIntervalSeconds);
 
         // Fetch symbols once at startup
         await FetchSymbolsAsync(stoppingToken);

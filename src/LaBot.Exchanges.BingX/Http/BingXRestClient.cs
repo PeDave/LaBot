@@ -94,11 +94,17 @@ public class BingXRestClient
 
         // Sort parameters alphabetically for canonical form
         var sortedParams = parameters.OrderBy(p => p.Key).ToList();
+
+        // Build query string for signature (unescaped values)
+        var queryStringForSignature = string.Join("&", sortedParams.Select(p => $"{p.Key}={p.Value}"));
+
+        // Build query string for HTTP request (URL-encoded values)
         var queryString = string.Join("&", sortedParams.Select(p => $"{p.Key}={Uri.EscapeDataString(p.Value)}"));
 
         if (signed)
         {
-            var signature = GenerateSignature(queryString);
+            // Generate signature using unescaped query string
+            var signature = GenerateSignature(queryStringForSignature);
             queryString += $"&signature={signature}";
         }
 

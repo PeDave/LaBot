@@ -49,9 +49,15 @@ builder.Services.AddSingleton<BingXAdapter>();
 // Register background services
 builder.Services.AddHostedService<BotEngine>();
 
-// Only add BingXBalancePoller if API credentials are configured
-var apiKey = Environment.GetEnvironmentVariable("BINGX_API_KEY") ?? builder.Configuration["BingX:ApiKey"];
-if (!string.IsNullOrEmpty(apiKey))
+// Conditionally add BingXBalancePoller if API credentials are configured
+// Use a helper to check credentials from the same sources as the options configuration
+bool HasBingXCredentials()
+{
+    var apiKey = Environment.GetEnvironmentVariable("BINGX_API_KEY") ?? builder.Configuration["BingX:ApiKey"];
+    return !string.IsNullOrEmpty(apiKey);
+}
+
+if (HasBingXCredentials())
 {
     builder.Services.AddHostedService<BingXBalancePoller>();
 }
