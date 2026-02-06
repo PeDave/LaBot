@@ -214,6 +214,29 @@ dotnet ef database update --startup-project ../LaBot.Web/LaBot.Web.csproj
 
 ---
 
+## Repository Conventions & Guardrails
+
+LaBot enforces code quality and consistency through repository-level configuration files:
+
+### Build & SDK Configuration
+- **`global.json`**: Pins .NET SDK to 8.0.400+ with `rollForward: "latestPatch"` for consistent builds across environments
+- **`Directory.Build.props`**: Centralizes MSBuild properties for all projects:
+  - Nullable reference types enabled (`<Nullable>enable</Nullable>`)
+  - Implicit usings enabled (`<ImplicitUsings>enable</ImplicitUsings>`)
+  - .NET analyzers enabled (`<EnableNETAnalyzers>true</EnableNETAnalyzers>`)
+  - Warnings treated as errors (`<TreatWarningsAsErrors>true</TreatWarningsAsErrors>`)
+- **`.editorconfig`**: Defines code style rules for whitespace, indentation, and .NET conventions
+
+### CI/CD Enforcement
+All pull requests must pass:
+- `dotnet build` with zero warnings (warnings treated as errors)
+- `dotnet test` with all tests passing
+- `dotnet format --verify-no-changes` for consistent code formatting
+
+See [CHECKLIST.md](CHECKLIST.md) Phase 2 for details on repository conventions.
+
+---
+
 ## Primary URLs & Endpoints
 
 ### LaBot.Web (Port 5000)

@@ -65,11 +65,12 @@ Use this checklist when:
 
 ### Code Standards
 - [x] Nullable reference types enabled (in all .csproj files) ✅
-- [x] TreatWarningsAsErrors enforced via CI workflow ✅
+- [x] TreatWarningsAsErrors enforced globally via `Directory.Build.props` ✅
 - [x] Code formatting enforced via CI (`dotnet format --verify-no-changes`) ✅
-- [ ] Create `Directory.Build.props` for shared build settings (optional - using project-level settings)
-- [ ] Create `.editorconfig` for consistent code style (optional - using .NET defaults)
-- [ ] Configure analyzers (StyleCop, Roslynator, or similar)
+- [x] Create `global.json` to pin .NET SDK version (8.0.400 with rollForward) ✅
+- [x] Create `Directory.Build.props` for shared build settings (nullable, implicit usings, analyzers, TreatWarningsAsErrors) ✅
+- [x] Create `.editorconfig` for consistent code style (whitespace, indentation, .NET conventions) ✅
+- [ ] Configure analyzers (StyleCop, Roslynator, or similar) - Optional advanced step
 - [ ] Document code style guidelines in CONTRIBUTING.md (if not exists)
 
 ### Git Practices
