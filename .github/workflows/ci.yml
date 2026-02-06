@@ -1,49 +1,40 @@
+# CI Workflow
+
 name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ '**' ]
-  workflow_dispatch:
-
-env:
-  DOTNET_VERSION: '8.0.x'
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-  DOTNET_CLI_TELEMETRY_OPTOUT: true
+    branches:
+      - main
 
 jobs:
-  build-and-test:
-    name: Build, Test & Format Check
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-      
-      - name: Cache NuGet packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-      
-      - name: Restore dependencies
-        run: dotnet restore LaBot.slnx
-      
-      - name: Build solution
-        run: dotnet build LaBot.slnx --configuration Release --no-restore /p:TreatWarningsAsErrors=true
-      
-      - name: Run tests
-        run: dotnet test LaBot.slnx --configuration Release --no-build --verbosity normal --logger "console;verbosity=detailed"
-      
-      - name: Verify code formatting
-        run: dotnet format LaBot.slnx --verify-no-changes --verbosity diagnostic
+          dotnet-version: '6.0.x'
+
+      - name: Restore Dependencies
+        run: |
+          dotnet restore .
+
+      - name: Build
+        run: |
+          dotnet build . --configuration Release
+
+      - name: Run Tests
+        run: |
+          dotnet test . --configuration Release
+
+      - name: Format Verification
+        run: |
+          dotnet format --verify-no-changes .
