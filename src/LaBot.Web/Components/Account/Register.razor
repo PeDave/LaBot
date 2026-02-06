@@ -1,0 +1,116 @@
+@page "/Account/Register"
+@using Microsoft.AspNetCore.Identity
+@using LaBot.Infrastructure.Data
+@using LaBot.Domain.Entities
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject NavigationManager NavigationManager
+@inject IServiceProvider ServiceProvider
+
+<h3>Register</h3>
+
+<div class="row">
+    <div class="col-md-4">
+        <EditForm Model="Input" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label>Email</label>
+                <InputText @bind-Value="Input.Email" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Username</label>
+                <InputText @bind-Value="Input.UserName" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <InputText type="password" @bind-Value="Input.Password" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <InputText type="password" @bind-Value="Input.ConfirmPassword" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+        </EditForm>
+
+        @if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            <div class="alert alert-danger mt-3">@ErrorMessage</div>
+        }
+    </div>
+</div>
+
+@code {
+    public class InputModel
+    {
+        public string Email { get; set; } = "";
+        public string UserName { get; set; } = "";
+        public string Password { get; set; } = "";
+        public string ConfirmPassword { get; set; } = "";
+    }
+
+    public InputModel Input { get; set; } = new();
+    public string? ErrorMessage { get; set; }
+
+    private async Task OnValidSubmit()
+    {
+        if (Input.Password != Input.ConfirmPassword)
+        {
+            ErrorMessage = "Passwords do not match.";
+            return;
+        }
+
+        using var scope = ServiceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<LaBot.Infrastructure.Data.ApplicationDbContext>();
+        
+        // Create tenant for user (tenant = user initially)
+        var tenant = new Tenant
+        {
+            Id = Guid.NewGuid(),
+            Name = Input.UserName,
+            CreatedAt = DateTime.UtcNow,
+            IsActive = true
+        };
+        dbContext.Tenants.Add(tenant);
+
+        var user = new ApplicationUser 
+        { 
+            UserName = Input.Email, 
+            Email = Input.Email,
+            TenantId = tenant.Id,
+            CreatedAt = DateTime.UtcNow
+        };
+        
+        var result = await UserManager.CreateAsync(user, Input.Password);
+        
+        if (result.Succeeded)
+        {
+            // Also create domain User entity
+            var domainUser = new User
+            {
+                Id = user.Id,
+                TenantId = tenant.Id,
+                Email = user.Email!,
+                UserName = Input.UserName,
+                CreatedAt = DateTime.UtcNow,
+                IsActive = true
+            };
+            dbContext.Users.Add(domainUser);
+            await dbContext.SaveChangesAsync();
+
+            await SignInManager.SignInAsync(user, isPersistent: false);
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            ErrorMessage = string.Join(", ", result.Errors.Select(e => e.Description));
+        }
+    }
+}

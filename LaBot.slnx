@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/LaBot.Api/LaBot.Api.csproj" />
+    <Project Path="src/LaBot.Application/LaBot.Application.csproj" />
+    <Project Path="src/LaBot.Domain/LaBot.Domain.csproj" />
+    <Project Path="src/LaBot.Exchanges.BingX/LaBot.Exchanges.BingX.csproj" />
+    <Project Path="src/LaBot.Exchanges.Bitget/LaBot.Exchanges.Bitget.csproj" />
+    <Project Path="src/LaBot.Exchanges.Core/LaBot.Exchanges.Core.csproj" />
+    <Project Path="src/LaBot.Infrastructure/LaBot.Infrastructure.csproj" />
+    <Project Path="src/LaBot.Web/LaBot.Web.csproj" />
+    <Project Path="src/LaBot.Worker/LaBot.Worker.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LaBot.Application.Tests/LaBot.Application.Tests.csproj" />
+    <Project Path="tests/LaBot.Domain.Tests/LaBot.Domain.Tests.csproj" />
+    <Project Path="tests/LaBot.Infrastructure.Tests/LaBot.Infrastructure.Tests.csproj" />
+    <Project Path="tests/LaBot.Integration.Tests/LaBot.Integration.Tests.csproj" />
+  </Folder>
+</Solution>

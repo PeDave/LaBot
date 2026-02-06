@@ -1,0 +1,20 @@
+[Unit]
+Description=LaBot API Service
+After=network.target postgresql.service
+
+[Service]
+Type=notify
+User=labot
+Group=labot
+WorkingDirectory=/opt/labot/api
+EnvironmentFile=/etc/labot/api.env
+ExecStart=/usr/bin/dotnet /opt/labot/api/LaBot.Api.dll
+Restart=on-failure
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=labot-api
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
