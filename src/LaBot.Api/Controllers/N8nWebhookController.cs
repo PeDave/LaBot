@@ -14,14 +14,14 @@ public class N8nWebhookController : ControllerBase
     }
 
     [HttpPost("signal")]
-    public async Task<IActionResult> ReceiveSignal([FromBody] SignalWebhookDto signal)
+    public Task<IActionResult> ReceiveSignal([FromBody] SignalWebhookDto signal)
     {
         _logger.LogInformation("Received signal from n8n: {@Signal}", signal);
 
         // TODO: Process signal and create bot action
         // This would integrate with the bot engine to execute trades
 
-        return Ok(new { status = "received", signalId = signal.SignalId });
+        return Task.FromResult<IActionResult>(Ok(new { status = "received", signalId = signal.SignalId }));
     }
 
     [HttpGet("export")]

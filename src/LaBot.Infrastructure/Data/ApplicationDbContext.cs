@@ -1,7 +1,7 @@
+using LaBot.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using LaBot.Domain.Entities;
 
 namespace LaBot.Infrastructure.Data;
 
