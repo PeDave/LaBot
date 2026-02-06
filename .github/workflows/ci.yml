@@ -37,13 +37,13 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore LaBot.sln
 
       - name: Build solution
-        run: dotnet build --configuration Release --no-restore /p:TreatWarningsAsErrors=true
+        run: dotnet build LaBot.sln --configuration Release --no-restore /p:TreatWarningsAsErrors=true
 
       - name: Run tests
-        run: dotnet test --configuration Release --no-build --verbosity normal --logger "console;verbosity=detailed"
+        run: dotnet test LaBot.sln --configuration Release --no-build --verbosity normal --logger "console;verbosity=detailed"
 
       - name: Verify code formatting
-        run: dotnet format --verify-no-changes --verbosity diagnostic
+        run: dotnet format LaBot.sln --verify-no-changes --verbosity diagnostic
