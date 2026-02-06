@@ -123,6 +123,36 @@ LaBot follows **Clean Architecture** principles with clear separation of concern
 
 ---
 
+## Repository Conventions & Guardrails
+
+LaBot enforces consistent code quality and build standards through configuration files at the repository root:
+
+### Build & SDK Configuration
+- **[`global.json`](../global.json)** - Pins .NET SDK to version 8.0.417 with `rollForward: latestPatch`
+- **[`Directory.Build.props`](../Directory.Build.props)** - Shared MSBuild properties applied to all projects:
+  - `Nullable enable` - Null reference type checking
+  - `ImplicitUsings enable` - Global using directives
+  - `TreatWarningsAsErrors true` - Zero-tolerance for warnings
+  - `EnableNETAnalyzers true` - Code quality analyzers
+  - `AnalysisLevel latest` - Latest code analysis features
+  - `Deterministic true` - Reproducible builds
+
+### Code Style
+- **[`.editorconfig`](../.editorconfig)** - Enforces consistent formatting:
+  - 4-space indentation for C# files
+  - 2-space indentation for XML/JSON/YAML
+  - UTF-8 encoding with final newlines
+  - Import ordering and code style preferences
+  - Verified by `dotnet format --verify-no-changes` in CI
+
+### Solution Files
+- **`LaBot.sln`** - Traditional Visual Studio solution file (compatible with all tooling)
+- **`LaBot.slnx`** - Modern XML solution file (VS 2022+ only)
+
+These guardrails ensure all developers work with consistent tooling and that CI builds are reproducible.
+
+---
+
 ## Local Development Quickstart
 
 ### Prerequisites

@@ -58,24 +58,31 @@ Use this checklist when:
 ## 📁 Phase 2: Repository Conventions
 
 ### Solution Structure
-- [ ] Verify all projects are included in `LaBot.slnx`
-- [ ] Confirm project organization follows Clean Architecture (Domain → Application → Infrastructure → Presentation)
-- [ ] Ensure consistent naming conventions (LaBot.* namespace)
-- [ ] Verify project references are correct (no circular dependencies)
+- [x] Verify all projects are included in `LaBot.sln` and `LaBot.slnx` ✅
+- [x] Confirm project organization follows Clean Architecture (Domain → Application → Infrastructure → Presentation) ✅
+- [x] Ensure consistent naming conventions (LaBot.* namespace) ✅
+- [x] Verify project references are correct (no circular dependencies) ✅
 
 ### Code Standards
 - [x] Nullable reference types enabled (in all .csproj files) ✅
-- [x] TreatWarningsAsErrors enforced via CI workflow ✅
+- [x] TreatWarningsAsErrors enforced globally via [`Directory.Build.props`](../Directory.Build.props) ✅
 - [x] Code formatting enforced via CI (`dotnet format --verify-no-changes`) ✅
-- [ ] Create `Directory.Build.props` for shared build settings (optional - using project-level settings)
-- [ ] Create `.editorconfig` for consistent code style (optional - using .NET defaults)
-- [ ] Configure analyzers (StyleCop, Roslynator, or similar)
+- [x] Created [`Directory.Build.props`](../Directory.Build.props) for shared build settings ✅
+  - Nullable enable
+  - ImplicitUsings enable
+  - EnableNETAnalyzers true
+  - AnalysisLevel latest
+  - Deterministic true
+  - TreatWarningsAsErrors true
+- [x] Created [`.editorconfig`](../.editorconfig) for consistent code style ✅
+- [x] Created [`global.json`](../global.json) to pin .NET SDK version 8.0.417 ✅
+- [ ] Configure additional analyzers (StyleCop, Roslynator, or similar) if needed
 - [ ] Document code style guidelines in CONTRIBUTING.md (if not exists)
 
 ### Git Practices
-- [ ] `.gitignore` properly excludes bin/, obj/, .vs/, user-specific files
-- [ ] No secrets or sensitive data committed to repository
-- [ ] Verify `appsettings.Production.json` is in .gitignore
+- [x] `.gitignore` properly excludes bin/, obj/, .vs/, user-specific files ✅
+- [x] No secrets or sensitive data committed to repository ✅
+- [x] Verify `appsettings.Production.json` is in .gitignore ✅
 - [ ] Commit messages follow conventional commits (or document convention)
 
 ### Documentation Standards
