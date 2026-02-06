@@ -15,7 +15,7 @@ public class BotInstance
     public string ConfigurationJson { get; set; } = "{}"; // Strategy-specific config
     public DateTime CreatedAt { get; set; }
     public DateTime? LastRunAt { get; set; }
-    
+
     // Navigation properties
     public virtual Tenant Tenant { get; set; } = null!;
     public virtual ICollection<BotState> BotStates { get; set; } = new List<BotState>();

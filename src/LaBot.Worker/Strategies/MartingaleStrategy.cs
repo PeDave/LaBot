@@ -15,19 +15,19 @@ public class MartingaleStrategy : ITradingStrategy
     {
         // TODO: Implement Martingale strategy logic
         // This is a v1 scaffold that demonstrates the structure
-        
+
         // 1. Get current ticker price
         var ticker = await exchange.GetTickerAsync(symbol, cancellationToken);
-        
+
         // 2. Analyze current position and price history
         // (In real implementation, would check DB for current positions and last entries)
-        
+
         // 3. Determine if we should enter/exit position
         // Martingale typically doubles position size after losses
-        
+
         // 4. Generate signal if conditions are met
         // For now, return null (no signal)
-        
+
         return null;
     }
 

@@ -24,7 +24,7 @@ public class BitgetAdapter : IExchangeAdapter
     {
         // TODO: Implement using vendored Bitget.Net SDK
         await Task.Delay(100, cancellationToken);
-        
+
         return new OrderResult(
             OrderId: Guid.NewGuid().ToString(),
             Symbol: symbol,
@@ -40,7 +40,7 @@ public class BitgetAdapter : IExchangeAdapter
     {
         // TODO: Implement using vendored Bitget.Net SDK
         await Task.Delay(100, cancellationToken);
-        
+
         return new OrderResult(
             OrderId: Guid.NewGuid().ToString(),
             Symbol: symbol,
@@ -56,7 +56,7 @@ public class BitgetAdapter : IExchangeAdapter
     {
         // TODO: Implement using vendored Bitget.Net SDK
         await Task.Delay(100, cancellationToken);
-        
+
         return new OrderResult(
             OrderId: orderId,
             Symbol: symbol,
@@ -79,7 +79,7 @@ public class BitgetAdapter : IExchangeAdapter
     {
         // TODO: Implement using vendored Bitget.Net SDK
         await Task.Delay(100, cancellationToken);
-        
+
         return new Balance(
             Asset: asset,
             Total: 0,
@@ -99,7 +99,7 @@ public class BitgetAdapter : IExchangeAdapter
     {
         // TODO: Implement using vendored Bitget.Net SDK
         await Task.Delay(100, cancellationToken);
-        
+
         return new Ticker(
             Symbol: symbol,
             LastPrice: 0,

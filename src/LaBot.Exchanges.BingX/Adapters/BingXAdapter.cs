@@ -22,7 +22,7 @@ public class BingXAdapter : IExchangeAdapter
     {
         // TODO: Implement using vendored BingX.Net SDK
         await Task.Delay(100, cancellationToken);
-        
+
         return new OrderResult(
             OrderId: Guid.NewGuid().ToString(),
             Symbol: symbol,
@@ -38,7 +38,7 @@ public class BingXAdapter : IExchangeAdapter
     {
         // TODO: Implement using vendored BingX.Net SDK
         await Task.Delay(100, cancellationToken);
-        
+
         return new OrderResult(
             OrderId: Guid.NewGuid().ToString(),
             Symbol: symbol,
@@ -54,7 +54,7 @@ public class BingXAdapter : IExchangeAdapter
     {
         // TODO: Implement using vendored BingX.Net SDK
         await Task.Delay(100, cancellationToken);
-        
+
         return new OrderResult(
             OrderId: orderId,
             Symbol: symbol,
@@ -77,7 +77,7 @@ public class BingXAdapter : IExchangeAdapter
     {
         // TODO: Implement using vendored BingX.Net SDK
         await Task.Delay(100, cancellationToken);
-        
+
         return new Balance(
             Asset: asset,
             Total: 0,
@@ -97,7 +97,7 @@ public class BingXAdapter : IExchangeAdapter
     {
         // TODO: Implement using vendored BingX.Net SDK
         await Task.Delay(100, cancellationToken);
-        
+
         return new Ticker(
             Symbol: symbol,
             LastPrice: 0,

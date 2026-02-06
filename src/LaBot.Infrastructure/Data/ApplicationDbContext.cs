@@ -41,7 +41,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             entity.Property(e => e.UserName).IsRequired().HasMaxLength(256);
             entity.HasIndex(e => e.Email).IsUnique();
             entity.HasIndex(e => new { e.TenantId, e.UserName });
-            
+
             entity.HasOne(e => e.Tenant)
                 .WithMany(t => t.Users)
                 .HasForeignKey(e => e.TenantId)
@@ -57,7 +57,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             entity.Property(e => e.ApiSecret).IsRequired().HasMaxLength(500);
             entity.Property(e => e.Passphrase).HasMaxLength(100);
             entity.HasIndex(e => new { e.TenantId, e.ExchangeName });
-            
+
             entity.HasOne(e => e.Tenant)
                 .WithMany(t => t.ExchangeApiKeys)
                 .HasForeignKey(e => e.TenantId)
@@ -88,7 +88,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             entity.Property(e => e.AvailableBalance).HasPrecision(18, 8);
             entity.Property(e => e.LockedBalance).HasPrecision(18, 8);
             entity.HasIndex(e => new { e.TenantId, e.SnapshotTime });
-            
+
             entity.HasOne(e => e.Tenant)
                 .WithMany()
                 .HasForeignKey(e => e.TenantId)
@@ -104,7 +104,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             entity.Property(e => e.ExchangeName).IsRequired().HasMaxLength(50);
             entity.Property(e => e.Symbol).IsRequired().HasMaxLength(20);
             entity.HasIndex(e => new { e.TenantId, e.Name });
-            
+
             entity.HasOne(e => e.Tenant)
                 .WithMany(t => t.BotInstances)
                 .HasForeignKey(e => e.TenantId)
@@ -116,7 +116,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         {
             entity.HasKey(e => e.Id);
             entity.HasIndex(e => new { e.BotInstanceId, e.Timestamp });
-            
+
             entity.HasOne(e => e.BotInstance)
                 .WithMany(b => b.BotStates)
                 .HasForeignKey(e => e.BotInstanceId)
@@ -132,7 +132,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
             entity.Property(e => e.Price).HasPrecision(18, 8);
             entity.Property(e => e.Quantity).HasPrecision(18, 8);
             entity.HasIndex(e => new { e.BotInstanceId, e.CreatedAt });
-            
+
             entity.HasOne(e => e.BotInstance)
                 .WithMany(b => b.Signals)
                 .HasForeignKey(e => e.BotInstanceId)

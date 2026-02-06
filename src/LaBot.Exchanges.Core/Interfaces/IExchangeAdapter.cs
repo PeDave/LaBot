@@ -5,7 +5,7 @@ namespace LaBot.Exchanges.Core.Interfaces;
 public interface IExchangeAdapter
 {
     string ExchangeName { get; }
-    
+
     Task<OrderResult> PlaceMarketOrderAsync(string symbol, OrderSide side, decimal quantity, CancellationToken cancellationToken = default);
     Task<OrderResult> PlaceLimitOrderAsync(string symbol, OrderSide side, decimal quantity, decimal price, CancellationToken cancellationToken = default);
     Task<OrderResult> CancelOrderAsync(string symbol, string orderId, CancellationToken cancellationToken = default);

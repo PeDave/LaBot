@@ -16,7 +16,7 @@ public class User
     public DateTime CreatedAt { get; set; }
     public DateTime? LastLoginAt { get; set; }
     public bool IsActive { get; set; } = true;
-    
+
     // Navigation properties
     public virtual Tenant Tenant { get; set; } = null!;
 }

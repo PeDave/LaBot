@@ -12,7 +12,7 @@ public class ExchangeApiKey
     public DateTime CreatedAt { get; set; }
     public DateTime? LastUsedAt { get; set; }
     public bool IsActive { get; set; } = true;
-    
+
     // Navigation properties
     public virtual Tenant Tenant { get; set; } = null!;
 }
