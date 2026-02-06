@@ -2,6 +2,15 @@
 
 A multi-tenant cryptocurrency trading bot platform built with .NET 8, Blazor Server, and PostgreSQL.
 
+## 📖 Documentation
+
+**Start here for comprehensive guidance:**
+- 📍 **[docs/PROJECT_INDEX.md](docs/PROJECT_INDEX.md)** - Complete project map, architecture guide, and local development quickstart
+- ✅ **[docs/CHECKLIST.md](docs/CHECKLIST.md)** - Master development checklist to keep you on track
+
+**Additional resources:**
+- [docs/README.md](docs/README.md) - Full documentation index
+
 ## Features
 
 - **Multi-tenant Architecture**: Each user gets their own tenant
@@ -116,9 +125,12 @@ Update `appsettings.json` in each project:
 
 ## Documentation
 
+- [Project Index](docs/PROJECT_INDEX.md) - Architecture, navigation, and development guide
+- [Development Checklist](docs/CHECKLIST.md) - Systematic development workflow
 - [Deployment Guide](docs/DEPLOYMENT.md) - Ubuntu 24.04 deployment instructions
 - [Vendor Setup](docs/VENDOR_SETUP.md) - How to vendor JKorf exchange SDKs
 - [n8n Setup](docs/N8N_SETUP.md) - n8n installation without Docker
+- [Implementation Summary](docs/IMPLEMENTATION_SUMMARY.md) - Technical overview
 
 ## Subscription Tiers
 
