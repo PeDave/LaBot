@@ -10,4 +10,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LaBot.Domain\LaBot.Domain.csproj" />
+    <ProjectReference Include="..\LaBot.Application\LaBot.Application.csproj" />
+    <ProjectReference Include="..\LaBot.Infrastructure\LaBot.Infrastructure.csproj" />
+    <ProjectReference Include="..\LaBot.Exchanges.Core\LaBot.Exchanges.Core.csproj" />
+    <ProjectReference Include="..\LaBot.Exchanges.Bitget\LaBot.Exchanges.Bitget.csproj" />
+    <ProjectReference Include="..\LaBot.Exchanges.BingX\LaBot.Exchanges.BingX.csproj" />
+  </ItemGroup>
 </Project>
