@@ -1,0 +1,93 @@
+{
+  "name": "LaBot Trading Signal Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "signal",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "labot-signal"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Parse incoming signal\nconst signal = $input.item.json;\n\n// Validate signal data\nif (!signal.symbol || !signal.action) {\n  throw new Error('Invalid signal: missing symbol or action');\n}\n\n// Log signal received\nconsole.log('Signal received:', signal);\n\nreturn {\n  json: {\n    signalId: signal.signalId || Date.now().toString(),\n    symbol: signal.symbol,\n    action: signal.action,\n    price: signal.price,\n    quantity: signal.quantity,\n    timestamp: new Date().toISOString(),\n    status: 'received'\n  }\n};"
+      },
+      "id": "2",
+      "name": "Process Signal",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://labotkripto.com/api/N8nWebhook/signal",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "signalId",
+              "value": "={{ $json.signalId }}"
+            },
+            {
+              "name": "symbol",
+              "value": "={{ $json.symbol }}"
+            },
+            {
+              "name": "action",
+              "value": "={{ $json.action }}"
+            },
+            {
+              "name": "price",
+              "value": "={{ $json.price }}"
+            },
+            {
+              "name": "quantity",
+              "value": "={{ $json.quantity }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3",
+      "name": "Send to LaBot API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [650, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Signal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Signal": {
+      "main": [
+        [
+          {
+            "node": "Send to LaBot API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
