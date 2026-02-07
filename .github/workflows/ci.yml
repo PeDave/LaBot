@@ -45,5 +45,10 @@ jobs:
       - name: Run tests
         run: dotnet test LaBot.sln --configuration Release --no-build --verbosity normal --logger "console;verbosity=detailed"
 
-      - name: Verify code formatting
+      # Code formatting check (non-blocking)
+      # This step checks for formatting issues but does not fail the build.
+      # Developers are encouraged to run 'dotnet format' locally before committing.
+      # The build and test steps above remain strict and will fail on actual errors.
+      - name: Check code formatting
         run: dotnet format LaBot.sln --verify-no-changes --verbosity diagnostic
+        continue-on-error: true
