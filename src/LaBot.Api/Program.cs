@@ -32,15 +32,28 @@ builder.Services.AddHttpClient<IAIService, AIService>();
 // Add application services
 builder.Services.AddScoped<IStripeService, StripeService>();
 
-// Add CORS if needed
+// Add CORS - configure appropriately for production
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    if (builder.Environment.IsDevelopment())
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
+        options.AddPolicy("AllowAll", policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        });
+    }
+    else
+    {
+        options.AddPolicy("AllowAll", policy =>
+        {
+            // TODO: Configure specific origins for production
+            policy.WithOrigins("https://labotkripto.com")
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        });
+    }
 });
 
 var app = builder.Build();

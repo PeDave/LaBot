@@ -70,13 +70,13 @@ public class TokenServiceTests
     [Fact]
     public void ValidateToken_ExpiredToken_ReturnsNull()
     {
-        // Arrange - Create a token service with very short expiration
+        // Arrange - Create a token service with negative expiration (already expired)
         var config = new Dictionary<string, string>
         {
-            ["Jwt:SecretKey"] = "YourSuperSecretKeyThatIsAtLeast32CharactersLong!",
+            ["Jwt:SecretKey"] = "YourTestSecretKeyThatIsAtLeast32CharactersLongForTesting!",
             ["Jwt:Issuer"] = "LaBot",
             ["Jwt:Audience"] = "LaBot",
-            ["Jwt:ExpirationMinutes"] = "-1" // Already expired
+            ["Jwt:ExpirationMinutes"] = "-1" // Token expires immediately
         };
         var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(config!)
@@ -122,7 +122,7 @@ public class TokenServiceTests
     {
         var config = new Dictionary<string, string>
         {
-            ["Jwt:SecretKey"] = "YourSuperSecretKeyThatIsAtLeast32CharactersLong!",
+            ["Jwt:SecretKey"] = "YourTestSecretKeyThatIsAtLeast32CharactersLongForTesting!",
             ["Jwt:Issuer"] = "LaBot",
             ["Jwt:Audience"] = "LaBot",
             ["Jwt:ExpirationMinutes"] = "60"

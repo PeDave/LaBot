@@ -23,7 +23,8 @@ public class TokenService : ITokenService
     public TokenService(IConfiguration configuration)
     {
         _configuration = configuration;
-        _secretKey = configuration["Jwt:SecretKey"] ?? "YourSuperSecretKeyThatIsAtLeast32CharactersLong!";
+        _secretKey = configuration["Jwt:SecretKey"] 
+            ?? throw new InvalidOperationException("JWT Secret Key must be configured. Set Jwt:SecretKey in configuration or environment variables.");
         _issuer = configuration["Jwt:Issuer"] ?? "LaBot";
         _audience = configuration["Jwt:Audience"] ?? "LaBot";
         _expirationMinutes = int.Parse(configuration["Jwt:ExpirationMinutes"] ?? "60");

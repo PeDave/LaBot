@@ -82,10 +82,9 @@ public class StripeService : IStripeService
             return;
         }
 
-        // Update user with Stripe customer ID
-        user.Email = customerEmail;
-        var result = await _context.SaveChangesAsync(cancellationToken);
-        _logger.LogInformation("Updated user {UserId} with Stripe customer from session {SessionId}", user.Id, session.Id);
+        // User found - session completed successfully
+        await _context.SaveChangesAsync(cancellationToken);
+        _logger.LogInformation("Processed checkout session {SessionId} for user {UserId}", session.Id, user.Id);
     }
 
     public async Task HandleSubscriptionCreatedAsync(Subscription subscription, CancellationToken cancellationToken = default)
@@ -220,8 +219,10 @@ public class StripeService : IStripeService
             return SubscriptionPlan.Free;
         }
 
-        // TODO: Map actual Stripe price IDs to plans
-        // This is a simplified version - in production, check against configured price IDs
+        // TODO: PRODUCTION - Load price ID mappings from configuration/database
+        // This simplified version uses string matching for development
+        // In production, use: configuration["Stripe:BasicPriceId"], configuration["Stripe:ProPriceId"]
+        // Or maintain a database table mapping price IDs to subscription plans
         if (priceId.Contains("basic", StringComparison.OrdinalIgnoreCase))
         {
             return SubscriptionPlan.Basic;
