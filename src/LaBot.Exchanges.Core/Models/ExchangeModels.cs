@@ -51,3 +51,16 @@ public record Candle(
     decimal Close,
     decimal Volume
 );
+
+public record Symbol(
+    string Name,
+    string BaseAsset,
+    string QuoteAsset,
+    decimal MinQuantity,
+    decimal MaxQuantity,
+    decimal QuantityStep,
+    decimal MinPrice,
+    decimal MaxPrice,
+    decimal PriceStep,
+    bool IsActive
+);

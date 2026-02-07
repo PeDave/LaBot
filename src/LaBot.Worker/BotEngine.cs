@@ -25,7 +25,7 @@ public class BotEngine : BackgroundService
         // TODO: Load exchange configurations from database per tenant
         // For now, create stub adapters
         _exchanges["Bitget"] = new BitgetAdapter("api_key", "api_secret", "passphrase");
-        _exchanges["BingX"] = new BingXAdapter("api_key", "api_secret");
+        // Note: BingX adapter is now managed via DI in BingXBalancePoller
 
         _logger.LogInformation("Initialized {Count} exchanges", _exchanges.Count);
     }
