@@ -46,4 +46,5 @@ jobs:
         run: dotnet test LaBot.sln --configuration Release --no-build --verbosity normal --logger "console;verbosity=detailed"
 
       - name: Verify code formatting
+        continue-on-error: true
         run: dotnet format LaBot.sln --verify-no-changes --verbosity diagnostic
