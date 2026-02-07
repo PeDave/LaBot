@@ -181,9 +181,11 @@ The repository uses GitHub Actions for CI/CD. The workflow runs on every pull re
 
 - ✅ **Build**: Compiles all projects in Release mode with warnings as errors
 - ✅ **Test**: Runs all unit and integration tests
-- ✅ **Format Check**: Ensures code follows consistent formatting standards
+- ℹ️ **Format Check**: Reports formatting inconsistencies but does not fail the build
 
-To ensure your changes pass CI before pushing, run the commands above locally.
+**Note**: The format check is non-blocking to prevent CI failures from minor whitespace/import issues. Developers are encouraged to run `dotnet format LaBot.sln` locally before committing to maintain code consistency.
+
+To ensure your changes pass CI before pushing, run the build and test commands above locally.
 
 ## Deployment
 
