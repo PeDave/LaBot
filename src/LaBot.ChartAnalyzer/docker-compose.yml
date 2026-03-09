@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: labot-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    # Uncomment for GPU support:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  chart-analyzer:
+    build: .
+    container_name: labot-chart-analyzer
+    ports:
+      - "8100:8100"
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - OLLAMA_MODEL=llava:13b
+      - API_HOST=0.0.0.0
+      - API_PORT=8100
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+volumes:
+  ollama_data:
