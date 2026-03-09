@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -14,29 +13,29 @@ class SymbolAnalysisRequest(BaseModel):
 
 
 class IndicatorSummary(BaseModel):
-    rsi: Optional[float] = None
+    rsi: float | None = None
     rsi_signal: str = "neutral"  # oversold / overbought / neutral
-    macd: Optional[float] = None
-    macd_signal: Optional[float] = None
-    macd_histogram: Optional[float] = None
+    macd: float | None = None
+    macd_signal: float | None = None
+    macd_histogram: float | None = None
     macd_crossover: str = "none"  # bullish / bearish / none
-    bb_upper: Optional[float] = None
-    bb_middle: Optional[float] = None
-    bb_lower: Optional[float] = None
+    bb_upper: float | None = None
+    bb_middle: float | None = None
+    bb_lower: float | None = None
     bb_squeeze: bool = False
-    ema_9: Optional[float] = None
-    ema_21: Optional[float] = None
-    ema_50: Optional[float] = None
-    ema_200: Optional[float] = None
-    sma_50: Optional[float] = None
-    sma_200: Optional[float] = None
+    ema_9: float | None = None
+    ema_21: float | None = None
+    ema_50: float | None = None
+    ema_200: float | None = None
+    sma_50: float | None = None
+    sma_200: float | None = None
     golden_cross: bool = False
     death_cross: bool = False
-    atr: Optional[float] = None
-    stoch_k: Optional[float] = None
-    stoch_d: Optional[float] = None
+    atr: float | None = None
+    stoch_k: float | None = None
+    stoch_d: float | None = None
     volume_above_average: bool = False
-    current_price: Optional[float] = None
+    current_price: float | None = None
 
 
 class DetectedPattern(BaseModel):
@@ -69,12 +68,12 @@ class Scenario(BaseModel):
     direction: str  # bullish / bearish / sideways
     emoji: str
     probability: float = Field(..., ge=0.0, le=100.0)
-    entry: Optional[EntryPoint] = None
-    stop_loss: Optional[float] = None
-    tp1: Optional[float] = None
-    tp2: Optional[float] = None
-    tp3: Optional[float] = None
-    rr_ratio: Optional[float] = None
+    entry: EntryPoint | None = None
+    stop_loss: float | None = None
+    tp1: float | None = None
+    tp2: float | None = None
+    tp3: float | None = None
+    rr_ratio: float | None = None
     actions: list[str] = []
 
 
@@ -82,9 +81,9 @@ class RiskAssessment(BaseModel):
     risk_percent: float
     account_balance: float
     risk_amount: float
-    position_size: Optional[float] = None
-    max_loss: Optional[float] = None
-    rr_ratio: Optional[float] = None
+    position_size: float | None = None
+    max_loss: float | None = None
+    rr_ratio: float | None = None
 
 
 class AnalysisReport(BaseModel):
@@ -96,10 +95,10 @@ class AnalysisReport(BaseModel):
     patterns: list[DetectedPattern] = []
     support_levels: list[PriceLevel] = []
     resistance_levels: list[PriceLevel] = []
-    fibonacci: Optional[FibonacciLevels] = None
+    fibonacci: FibonacciLevels | None = None
     scenarios: list[Scenario] = []
-    risk_assessment: Optional[RiskAssessment] = None
-    ai_interpretation: Optional[str] = None
+    risk_assessment: RiskAssessment | None = None
+    ai_interpretation: str | None = None
     summary: str = ""
 
 

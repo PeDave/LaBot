@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime, timezone
-from typing import Optional
 
 from app.api.models import AnalysisReport, IndicatorSummary, RiskAssessment, Scenario
 from app.scenarios.scenario_builder import ScenarioBuilder
@@ -25,7 +24,7 @@ class ReportGenerator:
         analysis: dict,
         risk_percent: float = 2.0,
         account_balance: float = 10000.0,
-        ai_interpretation: Optional[str] = None,
+        ai_interpretation: str | None = None,
     ) -> AnalysisReport:
         indicators: IndicatorSummary = analysis.get("indicators", IndicatorSummary())
         patterns = analysis.get("patterns", [])
@@ -40,7 +39,7 @@ class ReportGenerator:
             resistance_levels=resistance_levels,
         )
 
-        risk_assessment: Optional[RiskAssessment] = None
+        risk_assessment: RiskAssessment | None = None
         bullish_scenario = next((s for s in scenarios if s.direction == "bullish"), None)
         if bullish_scenario and bullish_scenario.entry and bullish_scenario.stop_loss:
             risk_assessment = self._risk_manager.calculate(

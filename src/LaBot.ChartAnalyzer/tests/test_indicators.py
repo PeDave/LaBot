@@ -65,7 +65,10 @@ class TestTechnicalIndicators:
         df = _make_df(100)
         ti = TechnicalIndicators()
         result = ti.calculate(df)
-        # MACD may or may not be set depending on data length, just ensure no exception
+        # With 100 candles MACD (12/26/9) should be computable
+        assert result.macd is not None
+        assert result.macd_signal is not None
+        assert result.macd_histogram is not None
 
     def test_empty_dataframe_returns_empty_summary(self):
         df = pd.DataFrame(columns=["open", "high", "low", "close", "volume"])
