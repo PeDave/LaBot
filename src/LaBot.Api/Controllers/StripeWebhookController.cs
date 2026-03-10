@@ -1,3 +1,4 @@
+using LaBot.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
 
@@ -9,11 +10,16 @@ public class StripeWebhookController : ControllerBase
 {
     private readonly ILogger<StripeWebhookController> _logger;
     private readonly IConfiguration _configuration;
+    private readonly IStripeService _stripeService;
 
-    public StripeWebhookController(ILogger<StripeWebhookController> logger, IConfiguration configuration)
+    public StripeWebhookController(
+        ILogger<StripeWebhookController> logger,
+        IConfiguration configuration,
+        IStripeService stripeService)
     {
         _logger = logger;
         _configuration = configuration;
+        _stripeService = stripeService;
     }
 
     [HttpPost]
@@ -22,41 +28,59 @@ public class StripeWebhookController : ControllerBase
         var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
         var webhookSecret = _configuration["Stripe:WebhookSecret"];
 
+        if (string.IsNullOrEmpty(webhookSecret))
+        {
+            _logger.LogWarning("Stripe webhook secret not configured");
+            return BadRequest("Webhook secret not configured");
+        }
+
         try
         {
+            var stripeSignature = Request.Headers["Stripe-Signature"].ToString();
+            
+            // Verify webhook signature
             var stripeEvent = EventUtility.ConstructEvent(
                 json,
-                Request.Headers["Stripe-Signature"],
-                webhookSecret
+                stripeSignature,
+                webhookSecret,
+                throwOnApiVersionMismatch: false
             );
 
-            _logger.LogInformation("Stripe webhook received: {EventType}", stripeEvent.Type);
+            _logger.LogInformation("Stripe webhook received and verified: {EventType}", stripeEvent.Type);
 
             // Handle the event
             switch (stripeEvent.Type)
             {
                 case "checkout.session.completed":
                     var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
-                    _logger.LogInformation("Checkout session completed: {SessionId}", session?.Id);
-                    // TODO: Update user subscription in database
+                    if (session != null)
+                    {
+                        await _stripeService.HandleCheckoutSessionCompletedAsync(session);
+                    }
                     break;
 
                 case "customer.subscription.created":
-                    var subscription = stripeEvent.Data.Object as Subscription;
-                    _logger.LogInformation("Subscription created: {SubscriptionId}", subscription?.Id);
-                    // TODO: Activate subscription for user
+                    var subscriptionCreated = stripeEvent.Data.Object as Subscription;
+                    if (subscriptionCreated != null)
+                    {
+                        await _stripeService.HandleSubscriptionCreatedAsync(subscriptionCreated);
+                    }
                     break;
 
                 case "customer.subscription.updated":
-                    subscription = stripeEvent.Data.Object as Subscription;
-                    _logger.LogInformation("Subscription updated: {SubscriptionId}", subscription?.Id);
-                    // TODO: Update subscription status
+                    var subscriptionUpdated = stripeEvent.Data.Object as Subscription;
+                    if (subscriptionUpdated != null)
+                    {
+                        await _stripeService.HandleSubscriptionUpdatedAsync(subscriptionUpdated);
+                    }
                     break;
 
                 case "customer.subscription.deleted":
-                    subscription = stripeEvent.Data.Object as Subscription;
-                    _logger.LogInformation("Subscription deleted: {SubscriptionId}", subscription?.Id);
-                    // TODO: Downgrade user to Free plan
+                    var subscriptionDeleted = stripeEvent.Data.Object as Subscription;
+                    if (subscriptionDeleted != null)
+                    {
+                        await _stripeService.HandleSubscriptionDeletedAsync(subscriptionDeleted);
+                    }
                     break;
 
                 default:
@@ -68,8 +92,13 @@ public class StripeWebhookController : ControllerBase
         }
         catch (StripeException e)
         {
-            _logger.LogError(e, "Stripe webhook error");
-            return BadRequest();
+            _logger.LogError(e, "Stripe webhook signature verification failed");
+            return BadRequest("Invalid signature");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error processing Stripe webhook");
+            return StatusCode(500, "Webhook processing failed");
         }
     }
 }
